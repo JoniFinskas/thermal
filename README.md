@@ -1,38 +1,64 @@
 # Thermal
 
-A Windows desktop monitor with a smoked-glass interface, red accents, charts, compact mode, a tray menu and hardware specifications.
+A minimal hardware monitor for **Windows 11 x64**, with a frosted-glass interface, red accents and live charts.
 
-## Available readings
+Track CPU load, RAM usage and NVIDIA GPU temperature and load. CPU temperature is optional and currently limited to a specific Acer laptop configuration; it is not available on every Windows PC.
 
-- CPU load and physical RAM usage through Windows.
-- NVIDIA GPU temperature and load through the already installed NVIDIA driver. No NVIDIA DLL or SDK is bundled.
-- Optional Acer CPU temperature through an existing firmware interface. Currently qualified only for Predator PHN16-72 with BIOS V1.11 and the reviewed Windows PowerShell/Framework files. Windows servicing can invalidate those exact file pins; the reader then fails closed. Other Acer models are not advertised as supported.
+## What it shows
 
-Acer access is off by default and enabled in Settings for the current session only. Windows asks for administrator permission for a separate, read-only PowerShell reader; the app itself stays unelevated. Cancellation leaves ordinary monitoring available. No driver, service, fan controller or tuning tool is installed. The reader stops when Thermal closes, with independent timeout guards. Sessions last at most four hours.
+| Reading | Availability |
+| --- | --- |
+| CPU load | Windows; up to 64 logical processors |
+| Physical RAM usage | Windows |
+| GPU temperature and load | Supported NVIDIA GPUs through the installed NVIDIA driver |
+| CPU temperature | Optional; supported Acer configuration only |
+| PC specifications | Hardware information detected from Windows |
 
-Intel/AMD GPU telemetry is not implemented. CPU load is unavailable above 64 logical processors. Missing sensors are shown honestly rather than estimated. Current qualification is Windows 11 x64; Windows 10, ARM64, other hardware and long sleep/resume or endurance runs are not release-qualified. Glass effects depend on Windows and accessibility settings.
+Intel and AMD GPU readings are not implemented. Unavailable sensors are shown as unavailable.
 
-## Build
+## Features
 
-Install the Microsoft .NET SDK specified in `global.json` separately. From the repository root, use PowerShell 7:
+- Live readings with an adjustable sampling interval.
+- Temperature and load charts with one or four hours of in-memory history.
+- Compact mode, an always-on-top option and a system tray menu.
+- A separate PC specifications page.
+- CSV export and optional local logging, off by default.
+
+Glass effects depend on Windows and accessibility settings. An opaque fallback is available.
+
+## Optional Acer CPU temperature
+
+CPU temperature support is currently limited to the **Acer Predator PHN16-72 with BIOS V1.11**. Other Acer models and general Intel/AMD CPU temperature readings are not supported yet. Windows updates may disable these readings if the compatibility checks no longer pass.
+
+Access is **off by default**. Enable it in Settings for the current session. Windows then asks for administrator permission for a separate, read-only PowerShell reader; the main app stays unelevated. Declining leaves ordinary monitoring available.
+
+Thermal installs no driver or service. The reader stops when Thermal closes, and sessions last up to four hours.
+
+## Privacy and local data
+
+Thermal has no telemetry, cloud upload, automatic network updater or network listener.
+
+Chart history stays in memory. Optional logging writes CSV files to `%LOCALAPPDATA%/Thermal/Logs`, limited to seven days, ten files and 100 MiB. CSV export also works when logging is disabled. Exported files include device names and readings, so review them before sharing.
+
+## Build from source
+
+You need **Windows 11 x64**, **PowerShell 7** and the Microsoft .NET SDK version specified in [global.json](global.json). Install those separately, then run from the repository root:
 
 ```powershell
 ./scripts/build-public.ps1 -Test
-dotnet run --project src/Thermal.App -c Release -p:ThermalPublicBuild=true --no-restore
+dotnet run --project src/Thermal.App -c Release --no-restore
 ```
 
-The build uses no external NuGet or JavaScript packages and downloads no packages, drivers or installers. NuGet feeds are cleared. Public outputs use `bin/public` and `obj/public`. The public repository defaults to the opt-in Acer policy in `Directory.Build.props`.
+The build uses no external NuGet or JavaScript packages. NVIDIA readings use your installed driver; no NVIDIA driver or SDK is bundled.
 
-Portable packaging is a separate reviewed step using `scripts/prepare-app-package.ps1 -PublicCandidate -RuntimeRoot <reviewed-runtime-folder> -OutputRoot <fresh-artifacts-folder>`. It requires an independently reviewed matching runtime and includes its Microsoft notices; it installs nothing. Do not publish build or QA folders as a release.
+## Preview status
 
-## Local history and export
+Thermal is an early preview for Windows 11 x64. Windows 10 and ARM64 are not currently supported. Broader hardware coverage, sleep/resume and extended use still need more testing.
 
-Charts retain one or four hours in memory. Optional CSV logging is off by default and writes only to `%LOCALAPPDATA%/Thermal/Logs`, bounded to seven days, ten files and 100 MiB. CSV export also works with logging disabled. CSV includes device names and readings: review files before sharing. No telemetry, cloud upload or network listener is implemented.
+Preview binaries are unsigned and may show a Windows publisher or reputation warning. Use trusted release checksums or build from source.
 
-Preview binaries are currently unsigned; Windows may display a publisher or reputation warning. Use trusted release checksums or build from source. Do not disable Windows security protections to run the app.
+## Licence and contributing
 
-## Licence
+Original code is available under the [MIT licence](LICENSE). Adapted Phosphor Icons 2.1.10 are also MIT; see the [full icon notice](THIRD-PARTY-NOTICES/Phosphor-MIT.txt). Windows, .NET and installed GPU/firmware drivers have their own terms.
 
-Original code is MIT; see `LICENSE`. Adapted Phosphor Icons 2.1.10 are MIT; their full notice and provenance are included. Windows/.NET and installed GPU/firmware drivers have their own terms. Apple frameworks, branding and assets are not included.
-
-This is an early preview, not a certified diagnostic or safety tool. See `CONTRIBUTING.md` and `SECURITY.md`.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidance and [SECURITY.md](SECURITY.md) for security reporting.
