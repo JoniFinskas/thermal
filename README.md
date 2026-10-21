@@ -4,6 +4,10 @@ A minimal hardware monitor for **Windows 11 x64**, with a frosted-glass interfac
 
 Track CPU load, RAM usage and NVIDIA GPU temperature and load. CPU temperature is optional and currently limited to a specific Acer laptop configuration; it is not available on every Windows PC.
 
+![Thermal overview showing CPU, NVIDIA GPU and RAM readings](assets/overview.png)
+
+*Sample data. CPU temperature requires a supported Acer configuration.*
+
 ## What it shows
 
 | Reading | Availability |
