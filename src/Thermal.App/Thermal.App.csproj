@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType><TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF><UseWindowsForms>true</UseWindowsForms><ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>Thermal</AssemblyName>
+    <AppHostDotNetSearch Condition="'$(ThermalPublicBuild)' != 'true'">AppRelative</AppHostDotNetSearch>
+    <AppHostRelativeDotNet>.NET</AppHostRelativeDotNet>
+    <DefineConstants Condition="'$(ThermalPublicBuild)' == 'true'">$(DefineConstants);THERMAL_PUBLIC</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Thermal.Core/Thermal.Core.csproj" />
+    <EmbeddedResource Include="LocalAcerReader.ps1" LogicalName="Thermal.LocalAcerReader" />
+    <EmbeddedResource Include="../../THIRD-PARTY-NOTICES/Phosphor-MIT.txt" LogicalName="Thermal.Phosphor.License" />
+    <EmbeddedResource Include="Assets/Phosphor/regular.json" LogicalName="Thermal.Phosphor.Regular" />
+    <Content Include="../../THIRD-PARTY-NOTICES/Phosphor-MIT.txt" Link="THIRD-PARTY-NOTICES/Phosphor-MIT.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(ThermalPublicBuild)' == 'true'">
+    <Compile Remove="AcerReaderClient.cs;AcerReaderVerification.cs;LiveCpuObservation.cs" />
+  </ItemGroup>
+</Project>

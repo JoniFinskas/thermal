@@ -1,0 +1,201 @@
+{
+  "package": "@phosphor-icons/react",
+  "version": "2.1.10",
+  "weight": "regular",
+  "published": "2025-05-22T04:43:33.972Z",
+  "tarball": "https://registry.npmjs.org/@phosphor-icons/react/-/react-2.1.10.tgz",
+  "sha512": "vt8Tvq8GLjheAZZYa+YG/pW7HDbov8El/MANW8pOAz4eGxrwhnbfrQZq0Cp4q8zBEu8NIhHdnr+r8thnfRSNYA==",
+  "archive_sha256": "08027417baf5fc4818581a63c487c98ad36c80c17816a0069d4fd0805350ee90",
+  "license_sha256": "6918b72504641180600cbbd4a86b0dfa9dfccf788775694325b71b9a029f6eb4",
+  "catalog_sha256": "d5dc707537b59ec742dbbe20257d7b503f0b6827d61c36f25b05deb5e7c1a0f7",
+  "source_files": [
+    {
+      "kind": "Thermometer",
+      "upstream_icon": "Thermometer",
+      "member": "dist/defs/Thermometer.es.js",
+      "sha256": "8199c7772d8ac4f4bcf763190e74e44d64ab51fb23c59edd6c0afeb98b97afd7"
+    },
+    {
+      "kind": "Cpu",
+      "upstream_icon": "Cpu",
+      "member": "dist/defs/Cpu.es.js",
+      "sha256": "85eb8df2a083c4843afad9b4a9570c69469702a43906f4ba0bd6006b369def27"
+    },
+    {
+      "kind": "Gpu",
+      "upstream_icon": "GraphicsCard",
+      "member": "dist/defs/GraphicsCard.es.js",
+      "sha256": "d2645109458f7e755ceb12b5098fb75fa5cbec73d76fbc04fe0d0aa0b651c4ca"
+    },
+    {
+      "kind": "Display",
+      "upstream_icon": "Monitor",
+      "member": "dist/defs/Monitor.es.js",
+      "sha256": "3a3a83aafa758d6b3577cd1c06cb2f36753f7b7e97068728860e086852ddca0a"
+    },
+    {
+      "kind": "Memory",
+      "upstream_icon": "Memory",
+      "member": "dist/defs/Memory.es.js",
+      "sha256": "0e0bd5f833310d805fcbf6115b3b8b89d7946770804fc5a02c83236a7eb9eb5b"
+    },
+    {
+      "kind": "Clock",
+      "upstream_icon": "Clock",
+      "member": "dist/defs/Clock.es.js",
+      "sha256": "1db4e03aa31f5d479be3a48ba5c2a36ac5f6116eba0ab6565a32cbdd68175caa"
+    },
+    {
+      "kind": "Glass",
+      "upstream_icon": "Stack",
+      "member": "dist/defs/Stack.es.js",
+      "sha256": "2cf6663628f086ddc1731c9722bee3c960b54acaaf1235829a032d703cab5031"
+    },
+    {
+      "kind": "Units",
+      "upstream_icon": "ThermometerSimple",
+      "member": "dist/defs/ThermometerSimple.es.js",
+      "sha256": "08b5a22570a25f312bb49bdd6c281da9496ac8815ce73d6cb20b1a80d1c6085f"
+    },
+    {
+      "kind": "History",
+      "upstream_icon": "ClockCounterClockwise",
+      "member": "dist/defs/ClockCounterClockwise.es.js",
+      "sha256": "9a34caffb9a7ae44e286f42bb8178ca25064fd0a8b6a79a194e79e473aae1eab"
+    },
+    {
+      "kind": "Pause",
+      "upstream_icon": "Pause",
+      "member": "dist/defs/Pause.es.js",
+      "sha256": "bbb9f87a6a8387aa18acb2ec247a415d485b678323014bc02cd6f0a510b0344d"
+    },
+    {
+      "kind": "Play",
+      "upstream_icon": "Play",
+      "member": "dist/defs/Play.es.js",
+      "sha256": "74e819b4c4685e45fa64b0ea7e771b511cfd77ab3b63d4b5e22b7bdbe7f677b0"
+    },
+    {
+      "kind": "Compact",
+      "upstream_icon": "ArrowsInSimple",
+      "member": "dist/defs/ArrowsInSimple.es.js",
+      "sha256": "f6f74ca69351f190e085b0924c8e18651aa87bdfbf028090243c2133723991b4"
+    },
+    {
+      "kind": "Expand",
+      "upstream_icon": "ArrowsOutSimple",
+      "member": "dist/defs/ArrowsOutSimple.es.js",
+      "sha256": "d79d90c288b9024427be28c1853f7e71732dd29b6f7202f6688c0db16bac28a6"
+    },
+    {
+      "kind": "Pin",
+      "upstream_icon": "PushPin",
+      "member": "dist/defs/PushPin.es.js",
+      "sha256": "82ea8a8e41919d9b81609add9b71741645f48abbb278762a5e60c3e23a499612"
+    },
+    {
+      "kind": "Minimize",
+      "upstream_icon": "Minus",
+      "member": "dist/defs/Minus.es.js",
+      "sha256": "b150d8abcef1b66eeb587945a7484309a8f6a30c54e59ef8b151d1de29e18bb7"
+    },
+    {
+      "kind": "Maximize",
+      "upstream_icon": "Square",
+      "member": "dist/defs/Square.es.js",
+      "sha256": "dff1d9f14bc05bdd3fde84c3f27d831cb83dc6d7aa62418c96c7e435dc7d7001"
+    },
+    {
+      "kind": "Close",
+      "upstream_icon": "X",
+      "member": "dist/defs/X.es.js",
+      "sha256": "4cb8b69830ae8d98860064d57ee28def14bab4e291b95a8df0c0745fc0932009"
+    },
+    {
+      "kind": "Chevron",
+      "upstream_icon": "CaretDown",
+      "member": "dist/defs/CaretDown.es.js",
+      "sha256": "2d78bb5690f7c05b09144cb79763673a97990b7097f345b516601cd74d5d014e"
+    },
+    {
+      "kind": "Check",
+      "upstream_icon": "Check",
+      "member": "dist/defs/Check.es.js",
+      "sha256": "accb02e028769f92c6922547f7a76f25a752d74f6b7e2963c904d8eb396a3d7e"
+    },
+    {
+      "kind": "Warning",
+      "upstream_icon": "Warning",
+      "member": "dist/defs/Warning.es.js",
+      "sha256": "3fff607b39ebb004bd7c2752ea13053f13ceeb8a01b29c1908622aa43ab766c3"
+    },
+    {
+      "kind": "Info",
+      "upstream_icon": "Info",
+      "member": "dist/defs/Info.es.js",
+      "sha256": "5c40b462c889d4870cea63a11839236e3a91f391b17fc30166295268d48f7592"
+    },
+    {
+      "kind": "Reset",
+      "upstream_icon": "ArrowCounterClockwise",
+      "member": "dist/defs/ArrowCounterClockwise.es.js",
+      "sha256": "2c9bafbf5e351e74cb4610bb5a02755593dc93b7e5e0bfc934f3231e7cdf7ca1"
+    },
+    {
+      "kind": "Settings",
+      "upstream_icon": "Gear",
+      "member": "dist/defs/Gear.es.js",
+      "sha256": "52eb307ce08f39b2aa25abc83805ccdf5dffb27aa36a1ba60f74e1e370a47ab2"
+    },
+    {
+      "kind": "Exit",
+      "upstream_icon": "SignOut",
+      "member": "dist/defs/SignOut.es.js",
+      "sha256": "a95d8a9032859e1ce865e59a27a5300515cc29a2b6ccae2fed72a9ee11046ef0"
+    },
+    {
+      "kind": "Storage",
+      "upstream_icon": "HardDrive",
+      "member": "dist/defs/HardDrive.es.js",
+      "sha256": "23eafc78b14290f0dcec0c28ca7aa662d7016e09218f61d722af25c12ccec907"
+    },
+    {
+      "kind": "Database",
+      "upstream_icon": "Database",
+      "member": "dist/defs/Database.es.js",
+      "sha256": "737caee9a46025b5d38e20786f8b9e05830093784160523667add8440c738a3a"
+    },
+    {
+      "kind": "Bios",
+      "upstream_icon": "Circuitry",
+      "member": "dist/defs/Circuitry.es.js",
+      "sha256": "4ef345c8656909114820338889d3617423494ec38fa033fc0aa8bd0af39dcc7a"
+    },
+    {
+      "kind": "Windows",
+      "upstream_icon": "Desktop",
+      "member": "dist/defs/Desktop.es.js",
+      "sha256": "c76088753977aa4ba138e3cae930ebed39a015cb3bd39ae366627363e3d66cef"
+    },
+    {
+      "kind": "Caret",
+      "upstream_icon": "CaretDown",
+      "member": "dist/defs/CaretDown.es.js",
+      "sha256": "2d78bb5690f7c05b09144cb79763673a97990b7097f345b516601cd74d5d014e"
+    },
+    {
+      "kind": "Export",
+      "upstream_icon": "ArrowSquareOut",
+      "member": "dist/defs/ArrowSquareOut.es.js",
+      "sha256": "04c20ed2b0f0f872d87e6e5740b08b3727ce9a22b8bf4e9602f2d25b07561840"
+    },
+    {
+      "kind": "Folder",
+      "upstream_icon": "FolderSimple",
+      "member": "dist/defs/FolderSimple.es.js",
+      "sha256": "f389bdc600dee19a042cc48da3c44fc93effdfe787d7f0f04bfa85a9d6bf4c58"
+    }
+  ],
+  "effects": "Inert vector extraction only. No package installation, scripts, React or external runtime. Archive not extracted to disk.",
+  "catalog_encoding": "UTF-8 with LF line endings, matching repository .gitattributes"
+}

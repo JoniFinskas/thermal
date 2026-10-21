@@ -1,0 +1,45 @@
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.*.example
+!.env.*.sample
+.venv/
+/.secrets/
+/secrets.local.*
+/credentials.local.*
+/.aws/
+/.azure/
+/.kube/
+.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.pfx
+*.snk
+/artifacts/
+/local-diagnostics/
+/work/
+*.log
+
+# WPF build-time temporary projects
+**/*_wpftmp.csproj
+
+# Local credentials, signing material and diagnostic output
+*.pem
+*.key
+*.p12
+*.p8
+*.keystore
+*.dmp
+*.dump
+*.etl
+/runtime/
+/TestResults/
+/secrets/
+/credentials/
+/.ssh/
+
+# Hardware exports are private local data, not source.
+*.csv

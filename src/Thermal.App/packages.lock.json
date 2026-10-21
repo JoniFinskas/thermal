@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0-windows7.0": {
+      "thermal.core": {
+        "type": "Project"
+      },
+      "thermal.cpusensors": {
+        "type": "Project",
+        "dependencies": {
+          "Thermal.Core": "[1.0.0, )"
+        }
+      },
+      "thermal.cpuservice": {
+        "type": "Project",
+        "dependencies": {
+          "Thermal.CpuSensors": "[1.0.0, )"
+        }
+      }
+    }
+  }
+}
