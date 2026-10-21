@@ -1,17 +1,56 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Thermal.Core;
 namespace Thermal.App;
 public partial class MainWindow {
+    private static async Task VerifyParentImageEncoding(){
+        string[] paths=[@"X:\ordinary folder\Thermal.exe",@"X:\O'Brien\Thermal.exe",@"X:\dollar$and`tick;name\Thermal.exe",@"X:\日本語\Thermal.exe",
+            @"X:\case"+'\u2018'+";Write-Output INERT;#"+@"\Thermal.exe",@"X:\case"+'\u2019'+";Write-Output INERT;#"+@"\Thermal.exe",
+            @"X:\case"+'\u201a'+";Write-Output INERT;#"+@"\Thermal.exe",@"X:\case"+'\u201b'+";Write-Output INERT;#"+@"\Thermal.exe"];
+        var cases=new StringBuilder();
+        foreach(string path in paths){
+            string code=Convert.ToBase64String(Encoding.Unicode.GetBytes(LocalAcerReaderHost.ParentImageAssignment(path)));
+            string expected=Convert.ToBase64String(Encoding.Unicode.GetBytes(path));
+            cases.Append("@{Code='").Append(code).Append("';Expected='").Append(expected).Append("'},");
+        }
+        // Parse generated text only. Never invoke a parsed script block or path payload.
+        string script="$ErrorActionPreference='Stop';$PSModuleAutoLoadingPreference='None';$cases=@("+cases.ToString().TrimEnd(',')+");"+"""
+            foreach($case in $cases){
+              $code=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String($case.Code))
+              $tokens=$null;$errors=$null
+              $ast=[Management.Automation.Language.Parser]::ParseInput($code,[ref]$tokens,[ref]$errors)
+              if($errors.Count -ne 0 -or $ast.EndBlock.Statements.Count -ne 1){throw 'Path changed the statement structure'}
+              $assignment=$ast.EndBlock.Statements[0]
+              if($assignment -isnot [Management.Automation.Language.AssignmentStatementAst] -or $assignment.Left.VariablePath.UserPath -cne 'parentImage'){throw 'Unexpected assignment'}
+              $commands=@($ast.FindAll({param($node) $node -is [Management.Automation.Language.CommandAst]},$true))
+              $literals=@($ast.FindAll({param($node) $node -is [Management.Automation.Language.StringConstantExpressionAst] -and $node.Value -ceq $case.Expected},$true))
+              if($commands.Count -ne 0 -or $literals.Count -ne 1){throw 'Path escaped the encoded literal'}
+              $actual=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String($literals[0].Value))
+              $expected=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String($case.Expected))
+              if($actual -cne $expected){throw 'Path did not round-trip'}
+            }
+            [Console]::WriteLine($cases.Count)
+            """;
+        var start=new ProcessStartInfo{FileName=LocalAcerReaderHost.HostPath,UseShellExecute=false,CreateNoWindow=true,RedirectStandardOutput=true,RedirectStandardError=true};
+        foreach(string argument in new[]{"-NoLogo","-NoProfile","-NonInteractive","-EncodedCommand",Convert.ToBase64String(Encoding.Unicode.GetBytes(script))})start.ArgumentList.Add(argument);
+        using var process=Process.Start(start)??throw new InvalidOperationException("Path parser did not start");
+        try{
+            var output=process.StandardOutput.ReadToEndAsync();var error=process.StandardError.ReadToEndAsync();
+            await process.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(20));
+            if(process.ExitCode!=0||await output!=paths.Length.ToString() + Environment.NewLine||!string.IsNullOrWhiteSpace(await error))throw new InvalidOperationException("PowerShell path parser regression failed");
+        }finally{if(!process.HasExited){process.Kill(true);await process.WaitForExitAsync();}}
+    }
     private async Task VerifyLocalAcerReader(){
         string directory=Path.Combine(AppContext.BaseDirectory,"local-acer-reader-verification");Directory.CreateDirectory(directory);
         if(File.Exists(Path.Combine(directory,"result.json"))||File.Exists(Path.Combine(directory,"error.txt")))throw new InvalidOperationException("Fresh local reader QA directory required");
         using var reader=new LocalAcerReaderClient(true);
         void Step(string value)=>File.AppendAllText(Path.Combine(directory,"steps.txt"),DateTimeOffset.UtcNow.ToString("O")+" "+value+"\n");
         try{
+            Step("path encoding parser regression");await VerifyParentImageEncoding();
             Step("startup policy");
             RequestAcerOnOpen();RequestAcerOnOpen();
             if(acerReader!=null||acerEnabled||acerStartupAttempted)throw new InvalidOperationException("QA requested automatic live access");
@@ -35,7 +74,7 @@ public partial class MainWindow {
             Step("idle connected");
             await idle.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(20));if(idle.ExitCode!=7)throw new InvalidOperationException("Independent idle watchdog failed");
             Step("idle watchdog passed");
-            File.WriteAllText(Path.Combine(directory,"result.json"),JsonSerializer.Serialize(new{SyntheticOnly=true,FirmwareCalls=0,Elevation=false,StartupPolicyVerified=true,AutomaticStartupSuppressedInQaVerified=true,PeerIdentityVerified=true,PauseResumeVerified=true,CacheClearedVerified=true,ProcessExitVerified=true,IndependentWatchdogVerified=true},new JsonSerializerOptions{WriteIndented=true}));
+            File.WriteAllText(Path.Combine(directory,"result.json"),JsonSerializer.Serialize(new{SyntheticOnly=true,FirmwareCalls=0,Elevation=false,StartupPolicyVerified=true,ParentImageEncodingVerified=true,AutomaticStartupSuppressedInQaVerified=true,PeerIdentityVerified=true,PauseResumeVerified=true,CacheClearedVerified=true,ProcessExitVerified=true,IndependentWatchdogVerified=true},new JsonSerializerOptions{WriteIndented=true}));
         }catch(Exception ex){Environment.ExitCode=1;File.WriteAllText(Path.Combine(directory,"error.txt"),ex.ToString());}
         Close();
     }

@@ -51,6 +51,8 @@ internal static class LocalAcerReaderHost {
         using var input=File.OpenRead(path);
         if(!Convert.ToHexString(SHA256.HashData(input)).Equals(expected,StringComparison.OrdinalIgnoreCase))throw new InvalidOperationException("Windows reader files changed; their signatures and servicing need re-verification.");
     }
+    // Keep filesystem text out of PowerShell syntax, including its Unicode quote delimiters.
+    internal static string ParentImageAssignment(string image)=>"$parentImage=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('"+Convert.ToBase64String(Encoding.Unicode.GetBytes(image))+"'));";
     public static ProcessStartInfo StartInfo(string nonce,bool fixture){
         if(!Guid.TryParseExact(nonce,"N",out _))throw new ArgumentException("Invalid local pipe nonce.",nameof(nonce));
         if(fixture&&!Environment.GetCommandLineArgs().Contains("--verify-local-acer-reader"))throw new InvalidOperationException("Synthetic reader requires its explicit QA entrypoint.");
@@ -58,7 +60,7 @@ internal static class LocalAcerReaderHost {
         string image=Environment.ProcessPath??throw new InvalidOperationException("Cannot identify Thermal.");
         using var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("Thermal.LocalAcerReader")??throw new InvalidOperationException("Local reader unavailable.");
         using var reader=new StreamReader(stream,Encoding.UTF8);
-        string code="$parentId="+Environment.ProcessId+";$nonce='"+nonce+"';$parentImage='"+image.Replace("'","''")+"';$fixture="+(fixture?"$true":"$false")+";\n"+reader.ReadToEnd();
+        string code="$parentId="+Environment.ProcessId+";$nonce='"+nonce+"';"+ParentImageAssignment(image)+"$fixture="+(fixture?"$true":"$false")+";\n"+reader.ReadToEnd();
         string arguments="-NoLogo -NoProfile -NonInteractive -EncodedCommand "+Convert.ToBase64String(Encoding.Unicode.GetBytes(code));
         if(arguments.Length>30000)throw new InvalidOperationException("Local reader command exceeds the Windows bound.");
         return new ProcessStartInfo {FileName=HostPath,WorkingDirectory=Environment.SystemDirectory,Arguments=arguments,UseShellExecute=!fixture,Verb=fixture?"":"runas",CreateNoWindow=fixture,WindowStyle=ProcessWindowStyle.Hidden};
